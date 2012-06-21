@@ -1,4 +1,7 @@
 target
 *.jar
 *.class
+*.iml
+*.ipr
+*.iws
 *.war
