@@ -8,13 +8,28 @@
   <description>JAX-RS Simple Service</description>
 
   <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+
+  <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>WEB-INF/beans.xml</param-value>
+    <param-value>org.examples.application</param-value>
   </context-param>
 
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <filter>
+    <filter-name>webappMetricsFilter</filter-name>
+    <filter-class>com.yammer.metrics.web.DefaultWebappMetricsFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>webappMetricsFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
 
   <servlet>
     <servlet-name>CXFServlet</servlet-name>
@@ -24,6 +39,18 @@
 
   <servlet-mapping>
     <servlet-name>CXFServlet</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.yammer.metrics.servlet.AdminServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/admin/*</url-pattern>
+  </servlet-mapping>
+
 </web-app>
